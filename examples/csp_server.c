@@ -76,25 +76,6 @@ void server(void) {
 }
 /* End of server task */
 
-static void print_usage(void)
-{
-	csp_print("Usage:\n"
-#if (CSP_HAVE_LIBSOCKETCAN)
-			  " -c <can-device>  add CAN device\n"
-#endif
-			  " -k <kiss-device> add KISS device (serial)\n"
-#if (CSP_HAVE_LIBZMQ)
-			  " -z <zmq-device>  add ZMQ device, e.g. \"localhost\"\n"
-#endif
-#if (CSP_USE_RTABLE)
-			  " -R <rtable>      set routing table\n"
-#endif
-			  " -t               enable test mode\n"
-			  " -s               enable server mode and set the server address; if used with -l, sets the address of the server that the client should connect to\n"
-			  " -l               enable client mode and set the client address\n"
-			  " -h               print help\n");
-}
-
 static struct option long_options[] = {
 #if (CSP_HAVE_LIBSOCKETCAN)
     {"can-device", required_argument, 0, 'c'},

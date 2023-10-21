@@ -3,7 +3,6 @@
 #include <pthread.h>
 
 void server(void);
-void client(void);
 
 static int csp_pthread_create(void * (*routine)(void *)) {
 
@@ -42,19 +41,10 @@ static void * task_server(void * param) {
 	return NULL;
 }
 
-static void * task_client(void * param) {
-	client();
-	return NULL;
-}
-
 int router_start(void) {
 	return csp_pthread_create(task_router);
 }
 
 int server_start(void) {
 	return csp_pthread_create(task_server);
-}
-
-int client_start(void) {
-	return csp_pthread_create(task_client);
 }

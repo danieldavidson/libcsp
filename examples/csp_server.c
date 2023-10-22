@@ -20,7 +20,7 @@ int server_start(void);
 /* Commandline options */
 static uint8_t server_address = 0;
 
-/* test mode, used for verifying that host & client can exchange packets over the loopback interface */
+/* Test mode, check that server & client can exchange packets */
 static bool test_mode = false;
 static unsigned int server_received = 0;
 
@@ -238,13 +238,13 @@ int main(int argc, char * argv[]) {
         sleep(3);
 
         if (test_mode) {
-            /* Test mode is intended for checking that host & client can exchange packets over loopback */
+            /* Test mode, check that server & client can exchange packets */
             if (server_received < 5) {
                 csp_print("Server received %u packets\n", server_received);
-                exit(1);
+                exit(EXIT_FAILURE);
             }
             csp_print("Server received %u packets\n", server_received);
-            exit(0);
+            exit(EXIT_SUCCESS);
         }
     }
 

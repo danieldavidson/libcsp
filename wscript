@@ -213,6 +213,12 @@ def build(ctx):
                   pytest_path=[ctx.path.get_bld()])
 
     if ctx.env.ENABLE_EXAMPLES:
+        ctx.program(source=['examples/csp_server_client.c',
+                            'examples/csp_server_client_{0}.c'.format(ctx.env.OS)],
+                    target='examples/csp_server_client',
+                    lib=ctx.env.LIBS,
+                    use='csp')
+        
         ctx.program(source=['examples/csp_server.c',
                             'examples/csp_server_{0}.c'.format(ctx.env.OS)],
                     target='examples/csp_server_',

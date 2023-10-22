@@ -9,7 +9,8 @@ DEFAULT_BUILD_SYSTEM = 'waf'
 
 
 def build_with_meson():
-    targets = ['examples/csp_server',
+    targets = ['examples/csp_server_client',
+               'examples/csp_server',
                'examples/csp_client',
                'examples/csp_arch',
                'examples/zmqproxy']
@@ -22,7 +23,8 @@ def build_with_meson():
 
 
 def build_with_cmake():
-    targets = ['examples/csp_server',
+    targets = ['examples/csp_server_client',
+               'examples/csp_server',
                'examples/csp_client',
                'examples/csp_arch',
                'examples/zmqproxy']

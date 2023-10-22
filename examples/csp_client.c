@@ -21,9 +21,9 @@ int client_start(void);
 static uint8_t server_address = 0;
 static uint8_t client_address = 0;
 
-/* test mode, used for verifying that host & client can exchange packets over the loopback interface */
+/* Test mode, check that server & client can exchange packets */
 static bool test_mode = false;
-static unsigned int server_received = 0;
+static unsigned int successful_ping = 0;
 
 /* Client task sending requests to server task */
 void client(void) {
@@ -39,7 +39,10 @@ void client(void) {
 		/* Send ping to server, timeout 1000 mS, ping size 100 bytes */
 		int result = csp_ping(server_address, 1000, 100, CSP_O_NONE);
 		csp_print("Ping address: %u, result %d [mS]\n", server_address, result);
-        (void) result;
+        // Increment successful_ping if ping was successful
+        if (result > 0) {
+            ++successful_ping;
+        }
 
 		/* Send reboot request to server, the server has no actual implementation of csp_sys_reboot() and fails to reboot */
 		csp_reboot(server_address);
@@ -119,7 +122,7 @@ void print_help() {
            " -h               print help\n");
 }
 
-/* main - initialization of CSP and start of server/client tasks */
+/* main - initialization of CSP and start of client task */
 int main(int argc, char * argv[]) {
 
 #if (CSP_HAVE_LIBSOCKETCAN)
@@ -249,13 +252,13 @@ int main(int argc, char * argv[]) {
         sleep(3);
 
         if (test_mode) {
-            /* Test mode is intended for checking that host & client can exchange packets over loopback */
-            if (server_received < 5) {
-                csp_print("Server received %u packets\n", server_received);
-                exit(1);
+            /* Test mode, check that server & client can exchange packets */
+            if (successful_ping < 5) {
+                csp_print("Client successfully pinged the server %u times\n", successful_ping);
+                exit(EXIT_FAILURE);
             }
-            csp_print("Server received %u packets\n", server_received);
-            exit(0);
+            csp_print("Client successfully pinged the server %u times\n", successful_ping);
+            exit(EXIT_SUCCESS);
         }
     }
 

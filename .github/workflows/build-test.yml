@@ -57,10 +57,8 @@ jobs:
       - name: Run ZMQ Client Test
         run: |
           ./build/examples/zmqproxy &
-          ./build/examples/csp_server -z localhost -a 1 &
+          ./build/examples/csp_server -z localhost -a 1 -t &
           ./build/examples/csp_client -z localhost -a 2 -C 1 -t
-          pkill csp_client
-          pkill csp_server
           pkill zmqproxy
 
       - name: Run ZMQ Server Test
@@ -68,6 +66,4 @@ jobs:
           ./build/examples/zmqproxy &
           ./build/examples/csp_client -z localhost -a 2 -C 1 -t &
           ./build/examples/csp_server -z localhost -a 1 -t
-          pkill csp_server
-          pkill csp_client
           pkill zmqproxy

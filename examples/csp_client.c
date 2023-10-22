@@ -97,7 +97,7 @@ static struct option long_options[] = {
 #if (CSP_USE_RTABLE)
     {"rtable", required_argument, 0, 'R'},
 #endif
-    {"local-address", required_argument, 0, 'a'},
+    {"interface-address", required_argument, 0, 'a'},
     {"connect-to", required_argument, 0, 'C'},
     {"test-mode", no_argument, 0, 't'},
     {"help", no_argument, 0, 'h'},
@@ -116,7 +116,7 @@ void print_help() {
 #if (CSP_USE_RTABLE)
            " -R <rtable>      set routing table\n"
 #endif
-           " -a <address>     set local address\n"
+           " -a <address>     set interface address\n"
            " -C <address>     connect to server at address\n"
            " -t               enable test mode\n"
            " -h               print help\n");
@@ -173,6 +173,13 @@ int main(int argc, char * argv[]) {
 				print_help();
                 exit(EXIT_FAILURE);
         }
+    }
+
+    // If more than one of the interfaces are set, print a message and exit
+    if ((kiss_device && can_device) || (kiss_device && zmq_device) || (can_device && zmq_device)) {
+        csp_print("Only one of the interfaces can be set.\n");
+        print_help();
+        exit(EXIT_FAILURE);
     }
 
     csp_print("Initialising CSP\n");

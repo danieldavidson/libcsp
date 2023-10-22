@@ -106,4 +106,4 @@ jobs:
         run: |
           ./build/examples/zmqproxy &
           ./build/examples/csp_server -z localhost -a 1 -t &
-          ./build/examples/csp_client -z localhost -a 2 -C 1 -t &
+          ./build/examples/csp_client -z localhost -a 2 -C 3 -t &

@@ -221,7 +221,7 @@ def build(ctx):
         
         ctx.program(source=['examples/csp_server.c',
                             'examples/csp_server_{0}.c'.format(ctx.env.OS)],
-                    target='examples/csp_server_',
+                    target='examples/csp_server',
                     lib=ctx.env.LIBS,
                     use='csp')
         
